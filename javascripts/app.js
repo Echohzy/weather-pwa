@@ -22,7 +22,7 @@
   }
 
  function main(){
-  app.fetchData({url: "/weather/forecast?location=beijing&key="+auth_key});
+  //app.fetchData({url: "/weather/forecast?location=beijing&key="+auth_key});
   console.log("main lalalalala");
  }
 

@@ -9,14 +9,19 @@ body{
 header{
     display: flex;
     background: linear-gradient(to right, #8665A6,  #C484BF, #C694AD);
-    height: 40px;
+    height: 60px;
     color: #fff;
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999;
 }
 header h3{
     font-size: 20px;
     flex: 1;
-    line-height: 40px;
+    line-height: 60px;
     text-indent: 20px;
 }
 header button{
@@ -26,4 +31,65 @@ header button{
     font-size: 20px;
     width: 60px;
     color: #fff;
+}
+
+.content{
+    padding: 60px 10px;
+}
+
+.content .weather-card{
+    background: #fff;
+    box-shadow: 1px 1px 20px 0px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.content .weather-card h3{
+    font-size: 20px;
+}
+
+.content .weather-card .info{
+    font-size: 14px;
+}
+
+.content .weather-card .weather-content{
+    display: flex;
+    align-items: flex-start;
+
+}
+
+.content .weather-card .weather-content img{
+    width: 80px;
+}
+.content .weather-card .weather-content .temperature .number{
+    font-size: 40px;
+    vertical-align: top;
+}
+
+.content .weather-card .weather-content .temperature .unit{
+    font-size: 20px;
+    vertical-align: middle;
+}
+.content .weather-card .weather-content .detail{
+    margin-left: 10px;
+    font-size: 14px;
+    flex: 1;
+}
+
+.content .weather-card .weather-content .detail .title{
+    color: #6c6c6c;
+}
+
+.content .future-weather{
+    display: flex;
+}
+.content .future-weather .future-block{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content .future-weather .future-block img{
+    width: 50px;
 }
