@@ -3,6 +3,7 @@
     <head>
         <title>Weather Pwa</title>
         <meta charset="utf-8">
+        <meta name="referrer" content="no-referrer" />
         <meta name="viewport" content="with=device-width, user-scalable=no, initial-scale=1.0" >
         <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" >
         <link rel="icon" href="/images/weather-icon.png" >
@@ -13,39 +14,7 @@
             <h3>Weather Pwa</h3>
             <button class="plus">+</button>
         </header>
-        <div class="content">
-            <div class="weather-card">
-                <h3>Beijing</h3>
-                <p class="info">Thu, 21 Jul 2016 09:00 PM EDT</p>
-                <p class="info">Windy</p>
-                <div class="weather-content">
-                    <img src="./images/snow.png" />
-                    <div class="temperature">
-                        <span class="number">56</span>
-                        <span class="unit">℃</span>
-                    </div>
-                    <div class="detail">
-                        <p><span class="title">Humidity: </span><span class="content">56%</span></p>
-                        <p><span class="title">Wind: </span><span class="content">25 mph</span></p>
-                        <p><span class="title">Sunrise: </span><span class="content">5:43 am</span></p>
-                        <p><span class="title">Sunset: </span><span class="content">8:21 pm</span></p>
-                    </div>
-                </div>
-                <div class="future-weather">
-                    <div class="future-block">
-                        <p class="date">Sat</p>
-                        <img src="./images/cloudy_s_sunny.png" />
-                        <p class="highest">22℃</p>
-                        <p class="lowest">22℃</p>
-                    </div>
-                    <div class="future-block">
-                        <p class="date">Sat</p>
-                        <img src="./images/cloudy_s_sunny.png" />
-                        <p class="highest">22℃</p>
-                        <p class="lowest">22℃</p>
-                    </div>
-                </div>
-            </div>
+        <div class="content" id="content">
         </div>
         <script src="/javascripts/app.js" async></script>
     </body>

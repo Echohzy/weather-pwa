@@ -12,18 +12,68 @@
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
       if( xhr.readyState == 4 &&  xhr.status === 200){
-        console.log(xhr.responseText);
+        params.success&&params.success(JSON.parse(xhr.responseText));
       } else {
-        console.log( xhr.statusText );
+        params.error&&params.error(xhr.statusText);
       }
     }
     xhr.open("GET", url);
     xhr.send();
   }
 
+  app.returnWeatherCard = function(forecast, current){
+    const forecast_weather = forecast.HeWeather6&& forecast.HeWeather6[0];
+    const now_weather = current.HeWeather6&&current.HeWeather6[0];
+    const weather_icon = "https://cdn.heweather.com/cond_icon/";
+    if(!forecast_weather||!now_weather){
+      return;
+    }
+    const { daily_forecast } = forecast_weather;
+    const { basic,  now, update } = now_weather;
+    let weatherBlock = "<div class=weather-card><h3>"+basic.location+"</h3><p class=info>"+new Date(update.loc)+"</p><p class=info>"+now.cond_txt+"</p><div class=weather-content><img src="+weather_icon+now.cond_code+".png /><div class=temperature><span class=number>"+now.tmp+"</span><span class=unit>℃</span></div><div class=detail><p><span class=title>Humidity: </span><span class=content>"+now.hum+"%</span></p><p><span class=title>Wind: </span><span class=content>"+now.wind_sc+"</span></p><p><span class=title>Pressure: </span><span class=content>"+now.pres+"</span></p><p><span class=title>Precipitation: </span><span class=content>"+now.pcpn+"</span></p></div></div><div class=future-weather>";
+
+    daily_forecast.map((forecast)=>{
+      var block = "<div class=future-block><p class=date>"+forecast.date+"</p><img src="+weather_icon+forecast.cond_code_d+".png /><p class=highest>"+forecast.tmp_max+"℃</p><p class=lowest>"+forecast.tmp_min+"℃</p></div>";
+      weatherBlock += block;
+    });
+
+    weatherBlock = weatherBlock + "</div></div>"
+    
+    return weatherBlock;
+  }
+
+  app.renderWeatherCard = function(forecast, now, dom){
+    dom.innerHTML = app.returnWeatherCard(forecast, now);
+  }
+
  function main(){
-  //app.fetchData({url: "/weather/forecast?location=beijing&key="+auth_key});
-  console.log("main lalalalala");
+  var forecast = new Promise(function (resolve, reject){
+    app.fetchData({
+      url: "/weather/forecast?location=beijing&key="+auth_key,
+      success: function(data){
+        resolve(data);
+      },
+      error: function(xhr){
+        console.log(xhr);
+      }
+    });
+  });
+
+  var now = new Promise(function (resolve, reject){
+    app.fetchData({
+      url: "/weather/now?location=beijing&key="+ auth_key,
+      success: function(data){
+        resolve(data);
+      },
+      error: function(xhr){
+        console.log(xhr);
+      }
+    });
+  });
+
+  Promise.all([forecast, now]).then(datas => {
+    app.renderWeatherCard(datas[0], datas[1], document.getElementById("content"));
+  });
  }
 
 
