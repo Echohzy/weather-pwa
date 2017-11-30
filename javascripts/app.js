@@ -6,7 +6,16 @@
   let app = {
     isLoading: false,
   };
-
+  
+  app.setLoading = function(loading, dom){
+    app.loading = loading;
+    if(loading){
+      dom.className = "loading";
+    } else {
+      dom.className = "loading disable";
+    }
+  };
+  
   app.fetchData = function(params){
     let url = host + params.url
     var xhr = new XMLHttpRequest();
@@ -47,6 +56,8 @@
   }
 
  function main(){
+   
+  app.setLoading(true, document.getElementsByClassName("loading")[0]);
   var forecast = new Promise(function (resolve, reject){
     app.fetchData({
       url: "/weather/forecast?location=beijing&key="+auth_key,
@@ -73,6 +84,7 @@
 
   Promise.all([forecast, now]).then(datas => {
     app.renderWeatherCard(datas[0], datas[1], document.getElementById("content"));
+    app.setLoading(false, document.getElementsByClassName("loading")[0]);
   });
  }
 

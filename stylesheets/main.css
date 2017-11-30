@@ -93,3 +93,20 @@ header button{
 .content .future-weather .future-block img{
     width: 50px;
 }
+
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -16px 0 0 -16px;
+}
+
+.loading.disable{
+  display: none;
+}
+
+
+
+
+
+
