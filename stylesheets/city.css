@@ -1,0 +1,36 @@
+.city-content{
+    padding: 60px 10px;
+}
+
+.city-content .block-title{
+    padding: 10px 0;
+    font-size: 20px;
+    color: #8665a6;
+}
+
+.city-content .buttons-block{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.city-content .buttons-block button{
+    border: none;
+    outline: none;
+    background: #fff;
+    color: #8665a6;
+    height: 36px;
+    width: 65px;
+    box-sizing: border-box;
+    border: 1px solid #8665a6;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.city-content .buttons-block button:hover{
+    background: #8665a6;
+    color: #fff;
+}
+

@@ -5,7 +5,63 @@
 
   let app = {
     isLoading: false,
+    selectedCity: [{
+      code: "CN101010100",
+      parent_english: "Beijing",
+      parent_chinese: "北京",
+      english: "beijing",
+      chinese: "北京"
+    }]
   };
+
+  const provinceList = [{
+    chinese: "浙江",
+    english: "Zhejiang"
+  },{
+    chinese: "河北",
+    english: "Hebei"
+  },{
+    chinese: "北京",
+    english: "Beijing"
+  }];
+
+  const cityList = [{
+    code: "CN101010100",
+    parent_english: "Beijing",
+    parent_chinese: "北京",
+    english: "beijing",
+    chinese: "北京"
+  },{
+    code: "CN101090201",
+    parent_chinese: "河北",
+    parent_english: "Hebei",
+    english: "baoding",
+    chinese: "保定"
+  },{
+    code: "CN101090402",
+    parent_chinese: "河北",
+    parent_english: "Hebei",
+    english: "chengde",
+    chinese: "承德"
+  },{
+    code: "CN101090601",
+    parent_chinese: "河北",
+    parent_english: "Hebei",
+    english: "langfang",
+    chinese: "廊坊"
+  },{
+    code: "CN101210101",
+    parent_english: "Zhejiang",
+    parent_chinese: "浙江",
+    english: "hangzhou",
+    chinese: "杭州"
+  },{
+    code: "CN101210301",
+    parent_english: "Zhejiang",
+    parent_chinese: "浙江",
+    english: "jiaxing",
+    chinese: "嘉兴"
+  }];
   
   app.setLoading = function(loading, dom){
     app.loading = loading;
