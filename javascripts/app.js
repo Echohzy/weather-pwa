@@ -6,6 +6,7 @@
   let app = {
     isLoading: false,
     showError: false,
+    weatherData: [],
     weatherList: document.querySelector("#content"),
     errorBlock: document.querySelector("#error-block"),
     loadingBlock: document.querySelector("#loading-block"),
@@ -55,7 +56,7 @@
     }
     const { daily_forecast } = forecast_weather;
     const { basic,  now, update } = now_weather;
-    let weatherBlock = "<div class=weather-card><h3>"+basic.location+"</h3><p class=info>"+new Date(update.loc)+"</p><p class=info>"+now.cond_txt+"</p><div class=weather-content><img src="+weather_icon+now.cond_code+".png /><div class=temperature><span class=number>"+now.tmp+"</span><span class=unit>℃</span></div><div class=detail><p><span class=title>Humidity: </span><span class=content>"+now.hum+"%</span></p><p><span class=title>Wind: </span><span class=content>"+now.wind_sc+"</span></p><p><span class=title>Pressure: </span><span class=content>"+now.pres+"</span></p><p><span class=title>Precipitation: </span><span class=content>"+now.pcpn+"</span></p></div></div><div class=future-weather>";
+    let weatherBlock = "<div class=weather-card data-code="+base.cid+"><h3>"+basic.location+"</h3><p class=info>"+new Date(update.loc)+"</p><p class=info>"+now.cond_txt+"</p><div class=weather-content><img src="+weather_icon+now.cond_code+".png /><div class=temperature><span class=number>"+now.tmp+"</span><span class=unit>℃</span></div><div class=detail><p><span class=title>Humidity: </span><span class=content>"+now.hum+"%</span></p><p><span class=title>Wind: </span><span class=content>"+now.wind_sc+"</span></p><p><span class=title>Pressure: </span><span class=content>"+now.pres+"</span></p><p><span class=title>Precipitation: </span><span class=content>"+now.pcpn+"</span></p></div></div><div class=future-weather>";
 
     daily_forecast.map((forecast)=>{
       var block = "<div class=future-block><p class=date>"+forecast.date+"</p><img src="+weather_icon+forecast.cond_code_d+".png /><p class=highest>"+forecast.tmp_max+"℃</p><p class=lowest>"+forecast.tmp_min+"℃</p></div>";
@@ -73,6 +74,22 @@
       list+= app.returnWeatherCard(data.forecast, data.now);
     });
     app.weatherList.innerHTML = list;
+  };
+
+  app.weatherCardToggleMenu = function(dom) {
+    if(dom.className="weather-card show-menu"){
+      dom.className = "weather-card";
+    } else {
+      dom.className="weather-card show-menu";
+    }
+  }
+
+  app.bindEvents = function(){
+    app.weatherList.addEventListener("click", function(e){
+      if(e.target.getAttribute("data-code")){
+        app.weatherCardToggleMenu(e.target);
+      }
+    });
   };
 
  function main(){
@@ -111,6 +128,7 @@
   });
 
   Promise.all(request_queue).then((datas) => {
+    app.weatherData = datas;
     app.renderWeatherList(datas);
     app.setLoading(false, app.loadingBlock);
   }).catch(function(error){
