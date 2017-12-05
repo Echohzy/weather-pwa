@@ -29,8 +29,9 @@
     cursor: pointer;
 }
 
-.city-content .buttons-block button:hover{
+.city-content .buttons-block button:hover, .city-content .buttons-block .selected{
     background: #8665a6;
     color: #fff;
 }
+
 

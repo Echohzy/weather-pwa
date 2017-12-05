@@ -2,84 +2,44 @@
   'use strict';
   const auth_key = "e1bada699df94f3b8fc2fbdc5ef74bc8";
   const host = "https://free-api.heweather.com/s6";
-
+  var city_ids;
   let app = {
     isLoading: false,
-    selectedCity: [{
-      code: "CN101010100",
-      parent_english: "Beijing",
-      parent_chinese: "北京",
-      english: "beijing",
-      chinese: "北京"
-    }]
+    showError: false,
+    weatherList: document.querySelector("#content"),
+    errorBlock: document.querySelector("#error-block"),
+    loadingBlock: document.querySelector("#loading-block"),
+    selectedCities: (city_ids=localStorage.getItem("city_ids")) ? city_ids.split(";"):[]
   };
-
-  const provinceList = [{
-    chinese: "浙江",
-    english: "Zhejiang"
-  },{
-    chinese: "河北",
-    english: "Hebei"
-  },{
-    chinese: "北京",
-    english: "Beijing"
-  }];
-
-  const cityList = [{
-    code: "CN101010100",
-    parent_english: "Beijing",
-    parent_chinese: "北京",
-    english: "beijing",
-    chinese: "北京"
-  },{
-    code: "CN101090201",
-    parent_chinese: "河北",
-    parent_english: "Hebei",
-    english: "baoding",
-    chinese: "保定"
-  },{
-    code: "CN101090402",
-    parent_chinese: "河北",
-    parent_english: "Hebei",
-    english: "chengde",
-    chinese: "承德"
-  },{
-    code: "CN101090601",
-    parent_chinese: "河北",
-    parent_english: "Hebei",
-    english: "langfang",
-    chinese: "廊坊"
-  },{
-    code: "CN101210101",
-    parent_english: "Zhejiang",
-    parent_chinese: "浙江",
-    english: "hangzhou",
-    chinese: "杭州"
-  },{
-    code: "CN101210301",
-    parent_english: "Zhejiang",
-    parent_chinese: "浙江",
-    english: "jiaxing",
-    chinese: "嘉兴"
-  }];
   
   app.setLoading = function(loading, dom){
-    app.loading = loading;
+    app.isLoading = loading;
     if(loading){
       dom.className = "loading";
     } else {
       dom.className = "loading disable";
     }
   };
-  
+
+  app.setErrorBlock = function(show, status, dom){
+    app.showError = show;
+    if(show){
+      dom.className = "error";
+    }else{
+      dom.className = "error hide";
+    }
+  };
+
   app.fetchData = function(params){
     let url = host + params.url
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function(){
-      if( xhr.readyState == 4 &&  xhr.status === 200){
-        params.success&&params.success(JSON.parse(xhr.responseText));
-      } else {
-        params.error&&params.error(xhr.statusText);
+      if( xhr.readyState == 4){
+        if(xhr.status === 200){
+          params.success&&params.success(JSON.parse(xhr.responseText));
+        } else {
+          params.error&&params.error(xhr.statusText);
+        }
       }
     }
     xhr.open("GET", url);
@@ -107,41 +67,57 @@
     return weatherBlock;
   }
 
-  app.renderWeatherCard = function(forecast, now, dom){
-    dom.innerHTML = app.returnWeatherCard(forecast, now);
-  }
+  app.renderWeatherList = function(datas){
+    let list="";
+    datas.map((data)=>{
+      list+= app.returnWeatherCard(data.forecast, data.now);
+    });
+    app.weatherList.innerHTML = list;
+  };
 
  function main(){
    
   app.setLoading(true, document.getElementsByClassName("loading")[0]);
-  var forecast = new Promise(function (resolve, reject){
-    app.fetchData({
-      url: "/weather/forecast?location=beijing&key="+auth_key,
-      success: function(data){
-        resolve(data);
-      },
-      error: function(xhr){
-        console.log(xhr);
-      }
+
+  let request_queue = [];
+
+  app.selectedCities.map((code)=>{
+    
+    let p = new Promise(function(resolve, reject){
+      app.fetchData({
+        url: "/weather/forecast?location="+code+"&key="+auth_key,
+        success: function(data){
+          resolve(data);
+        },
+        error: function(xhr){
+          reject(xhr);
+        }
+      });
+    }).then(function(forecast){
+      return new Promise(function(resolve, reject){
+        app.fetchData({
+          url: "/weather/now?location="+code+"&key="+ auth_key,
+          success: function(data){
+            resolve({forecast: forecast, now: data});
+          },
+          error: function(xhr){
+            reject(xhr);
+          }
+        });
+      });
     });
+    request_queue.push(p);
+
   });
 
-  var now = new Promise(function (resolve, reject){
-    app.fetchData({
-      url: "/weather/now?location=beijing&key="+ auth_key,
-      success: function(data){
-        resolve(data);
-      },
-      error: function(xhr){
-        console.log(xhr);
-      }
-    });
+  Promise.all(request_queue).then((datas) => {
+    app.renderWeatherList(datas);
+    app.setLoading(false, app.loadingBlock);
+  }).catch(function(error){
+    app.setErrorBlock(true, error, app.errorBlock);
   });
 
-  Promise.all([forecast, now]).then(datas => {
-    app.renderWeatherCard(datas[0], datas[1], document.getElementById("content"));
-    app.setLoading(false, document.getElementsByClassName("loading")[0]);
-  });
+
  }
 
 

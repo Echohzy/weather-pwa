@@ -6,6 +6,7 @@
         <meta name="referrer" content="no-referrer" />
         <meta name="viewport" content="with=device-width, user-scalable=no, initial-scale=1.0" >
         <link rel="stylesheet" type="text/css" href="/stylesheets/base.css" >
+        <link rel="stylesheet" type="text/css" href="/stylesheets/common.css" >
         <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" >
         <link rel="stylesheet" type="text/css" href="/stylesheets/loading.css" >
         <link rel="icon" href="/images/weather-icon.png" >
@@ -14,12 +15,14 @@
     <body>
         <header>
             <h3>Weather Pwa</h3>
-            <button class="plus">+</button>
+            <a class="plus add-city" href="/city.html">+</a>
         </header>
-        <div class="loading disable">
+        <div class="loading disable" id="loading-block">
           <svg height="32" width="32" viewBox="0 0 32 32">
             <circle cx="16" cy="16" r="14" fill="none"/>  
           </svg>
+        </div>
+        <div class="error hide" id="error-block">
         </div>
         <div class="content" id="content">
         </div>

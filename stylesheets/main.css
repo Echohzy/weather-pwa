@@ -1,5 +1,11 @@
+
+
 .content{
     padding: 60px 10px;
+}
+
+header .add-city{
+    font-size: 30px;
 }
 
 .content .weather-card{
@@ -70,6 +76,22 @@
   display: none;
 }
 
+
+.error{
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+    font-size: 12px;
+    line-height: 24px;
+    color: #fff;
+}
+
+.hide{
+    display: none;
+}
 
 
 

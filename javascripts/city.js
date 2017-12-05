@@ -2,7 +2,9 @@
   'use strict';
 
   let app = {
-    
+    provinceBlock: document.querySelector("#province-list"),
+    cityBlock: document.querySelector("#city-list"),
+    plusBlock: document.querySelector("#complete")
   };
 
   const provinceList = [{
@@ -57,9 +59,13 @@
 
   app.renderProvince = function(dom){
     let provinceContent = "";
-
+    let provinceName = app.selectedProvince&&app.selectedProvince.chinese;
     provinceList.map((province)=>{
-      provinceContent = provinceContent + "<button data-name="+province.chinese+">" + province.chinese + "</button>";
+      if(provinceName===province.chinese){
+        provinceContent = provinceContent + "<button class=selected data-name="+province.chinese+">" + province.chinese + "</button>";
+      }else{
+        provinceContent = provinceContent + "<button data-name="+province.chinese+">" + province.chinese + "</button>";
+      }
     });
     dom.innerHTML = provinceContent;
   }
@@ -68,38 +74,74 @@
     app.selectedProvince = {
       chinese: name
     };
-    let node = document.querySelector("#city-list");
-    app.renderCity(node);
+    app.selectedCity = null;
+    app.renderProvince(app.provinceBlock);
+    app.renderCity(app.cityBlock);
   }
 
+  app.selectCity = function(name, code){
+    app.selectedCity = {
+      chinese: name,
+      code: code
+    };
+     app.renderCity(app.cityBlock);
+  }
 
   app.renderCity = function(dom){
     if(!app.selectedProvince){
       return;
     }
     let cityContent = "";
+    let cityName = app.selectedCity && app.selectedCity.chinese;
     cityList.map((city)=>{
       if(city.parent_chinese===app.selectedProvince.chinese){
-        cityContent = cityContent + "<button>" + city.chinese + "</button>";
+        if(cityName===city.chinese){
+          cityContent = cityContent + "<button class=selected data-name="+city.chinese+" data-code="+city.code+">" + city.chinese + "</button>";
+        }else{
+          cityContent = cityContent + "<button data-name="+city.chinese+" data-code="+city.code+">" + city.chinese + "</button>";
+        }
       }
     });
     dom.innerHTML = cityContent;
   }
 
-  app.bindEvent = function(){
-    let node = document.querySelector("#province-list");
-    node.addEventListener("click", (e)=>{
-      if(e.target.localName==="button"){
-        app.selectProvince(e.target.getAttribute("data-name"));
+
+  app.completeSelection = function() {
+    if(app.selectedCity){
+      var cityIds = localStorage.getItem("city_ids");
+      var cityArr  = cityIds ? cityIds.split(";") : [];
+      if(cityArr.indexOf(app.selectedCity.code)<0){
+        cityArr.push(app.selectedCity.code);
+        localStorage.setItem("city_ids", cityArr.join(";"));
       }
+    }
+    window.location.href = "/";
+  }
+  app.bindEvent = function(){
+    app.provinceBlock.addEventListener("click", (e)=>{
+      if(e.target.localName==="button"){
+        if(e.target.className !== "selected"){
+          app.selectProvince(e.target.getAttribute("data-name"));
+        }
+      }
+    });
+
+    app.cityBlock.addEventListener("click", (e)=>{
+      if(e.target.localName==="button"){
+        if(e.target.className !== "selected"){
+          app.selectCity(e.target.getAttribute("data-name"), e.target.getAttribute("data-code"));
+        }
+      }
+    });
+
+    app.plusBlock.addEventListener("click", ()=>{
+      app.completeSelection();
     });
   }
 
   function main(){
-    var provinceBlock = document.querySelector("#province-list");
-    var cityBlock = document.querySelector("#city-list");
-    app.renderProvince(provinceBlock);
-    app.renderCity(cityBlock);
+    app.renderProvince(app.provinceBlock);
+    app.renderCity(app.cityBlock);
     app.bindEvent();
   }
 
