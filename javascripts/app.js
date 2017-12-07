@@ -6,10 +6,12 @@
   let app = {
     isLoading: false,
     showError: false,
+    showRemind: false,
     weatherData: [],
     weatherList: document.querySelector("#content"),
     errorBlock: document.querySelector("#error-block"),
     loadingBlock: document.querySelector("#loading-block"),
+    remindBlock: document.querySelector("#remind-block"),
     selectedCities: (city_ids=localStorage.getItem("city_ids")) ? city_ids.split(";"):[]
   };
   
@@ -28,6 +30,15 @@
       dom.className = "error";
     }else{
       dom.className = "error hide";
+    }
+  };
+
+  app.setRemindBlock = function(showRemind){
+    app.showRemind = showRemind;
+    if(showRemind){
+      app.remindBlock.className = "remind-block show";
+    }else{
+      app.remindBlock.className = "remind-block";
     }
   };
 
@@ -69,6 +80,7 @@
   }
 
   app.renderWeatherList = function(datas){
+    datas.length===0 ? app.setRemindBlock(true) : app.setRemindBlock(false);
     let list="";
     datas.map(function(data){
       list += app.returnWeatherCard(data.forecast, data.now);

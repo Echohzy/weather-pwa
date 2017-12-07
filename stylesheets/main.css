@@ -85,6 +85,20 @@ header .add-city{
   margin: -16px 0 0 -16px;
 }
 
+.remind-block {
+    position: fixed;
+    top: 50%;
+    font-size: 14px;
+    text-align: center;
+    color: #C484BF;
+    width: 100%;
+    display: none;
+}
+
+.remind-block.show{
+    display: block;
+}
+
 .loading.disable{
   display: none;
 }
