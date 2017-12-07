@@ -16,6 +16,12 @@
   },{
     chinese: "北京",
     english: "Beijing"
+  },{
+    chinese: "江苏",
+    english: "Jiangsu"
+  },{
+    chinese: "福建",
+    english: "Fujian"
   }];
 
   const cityList = [{
@@ -54,6 +60,48 @@
     parent_chinese: "浙江",
     english: "jiaxing",
     chinese: "嘉兴"
+  },{
+    code: "CN101190101",
+    parent_english: "Jiangsu",
+    parent_chinese: "江苏",
+    english: "Nanjing",
+    chinese: "南京"
+  },{
+    code: "CN101190201",
+    parent_english: "Jiangsu",
+    parent_chinese: "江苏",
+    english: "Wuxi",
+    chinese: "无锡"
+  },{
+    code: "CN101190401",
+    parent_english: "Jiangsu",
+    parent_chinese: "江苏",
+    english: "Suzhou",
+    chinese: "苏州"
+  },{
+    code: "CN101190601",
+    parent_english: "Jiangsu",
+    parent_chinese: "江苏",
+    english: "Yangzhou",
+    chinese: "扬州"
+  },{
+    code: "CN101230101",
+    parent_english: "Fujian",
+    parent_chinese: "福建",
+    english: "Fuzhou",
+    chinese: "福州"
+  },{
+    code: "CN101230301",
+    parent_english: "Fujian",
+    parent_chinese: "福建",
+    english: "Ningde",
+    chinese: "宁德"
+  },{
+    code: "CN101230501",
+    parent_english: "Fujian",
+    parent_chinese: "福建",
+    english: "Quanzhou",
+    chinese: "泉州"
   }];
 
 
