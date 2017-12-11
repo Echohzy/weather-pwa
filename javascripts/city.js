@@ -193,6 +193,10 @@
     app.bindEvent();
   }
 
+  window.addEventListener("load", function(){
+    main();
+  })
+
   main();
 
 })();

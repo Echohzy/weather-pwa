@@ -1,13 +1,15 @@
 {
-    "name": "Weather-Pwa",
-    "short_name": "Weather-Pwa",
-    "icons": [{
-        "src": "/images/weather-icon.png",
-        "sizes": "128*128",
-        "type": "image/png"
-    }],
-    "start_url": "/index.html",
-    "display": "standalone",
-    "background_color": "#3E4EB8",
-    "theme_color": "#2F3BA2"
+  "name": "Weather-Pwa",
+  "short_name": "Weather-Pwa",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2F3BA2",
+  "icons": [
+    {
+      "src": "/images/icons/android-icon-192x192.png",
+      "sizes": "192*192",
+      "type": "image/png"
+    }
+  ]
 }

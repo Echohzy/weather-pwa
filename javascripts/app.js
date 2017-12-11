@@ -155,19 +155,23 @@
     app.setErrorBlock(true, error, app.errorBlock);
   });
 
-  app.bindEvents();
-
- }
-
-
- main();
-  
   if( 'serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('./service-worker.js')
       .then(()=>{
         console.log("Service Worker Register");
-      })
+      });
   }
+
+  app.bindEvents();
+
+ }
+
+
+ 
+  
+  window.addEventListener("load", function(){
+    main();
+  });
 
 })();
