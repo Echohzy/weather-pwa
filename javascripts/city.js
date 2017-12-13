@@ -195,8 +195,8 @@
 
   window.addEventListener("load", function(){
     main();
-  })
+  });
 
-  main();
+  registerSW('./service-worker.js');
 
 })();
